@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">-->
+<!--    <service verb="create" noun="MoquiTraining" type="entity-auto">-->
+<!--        <in-parameters>-->
+<!--            <auto-parameters entity-name="MoquiTraining" include="nonpk" />-->
+<!--            <parameter name="trainingName" required="true" />-->
+<!--            <parameter name="trainingDate"  />-->
+<!--        </in-parameters>-->
+<!--        <out-parameters>-->
+<!--            <parameter name="trainingId" />-->
+<!--        </out-parameters>-->
+<!--    </service>-->
+<!--</services>-->
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+    <service verb="create" noun="MoquiTraining">
+        <in-parameters>
+            <auto-parameters entity-name="MoquiTraining" include="nonpk" />
+            <parameter name="trainingName" required="true" />
+            <parameter name="trainingDate"  />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId" />
+        </out-parameters>
+        <actions>
+            <service-call name="create#MoquiTraining" in-map="context" out-map="context" />
+        </actions>
+    </service>
+</services>
+
+<!--<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">-->
+<!--<service verb="create" noun="MoquiTraining" type="script" location="component://moqui-training/service/createMoquiTraining.groovy">-->
+<!--    <in-parameters>-->
+<!--        <auto-parameters entity-name="MoquiTraining" include="nonpk" />-->
+<!--        <parameter name="trainingName" required="true" />-->
+<!--        <parameter name="trainingDate"  />-->
+<!--    </in-parameters>-->
+<!--    <out-parameters>-->
+<!--        <parameter name="trainingId" />-->
+<!--    </out-parameters>-->
+<!--</service>-->
+<!--</services>-->
