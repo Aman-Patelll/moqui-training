@@ -1,7 +1,8 @@
-<entity-facade-xml type="moqui">
+<entity-facade-xml type="demo">
     <moqui.training.MoquiTraining
             traingingId="1003"
             trainingName="moqui training day 3"
-            trainingDate="2025-01-08" trainingPrice="300"
+            trainingDate="2025-01-08"
+            trainingPrice="100"
             trainingDuration="7" />
 </entity-facade-xml>
