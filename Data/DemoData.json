@@ -1,0 +1,10 @@
+[
+  {"_dataType":  "moqui"},
+  {
+    "_entity": "MoquiTraining",
+    "trainingName": "moqui training day 1",
+    "trainingDate": "2025-01-07",
+    "trainingPrice": 500,
+    "trainingDuration": 7
+  }
+]
