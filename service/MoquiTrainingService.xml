@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">-->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
 <!--    <service verb="create" noun="MoquiTraining" type="entity-auto">-->
 <!--        <in-parameters>-->
 <!--            <auto-parameters entity-name="MoquiTraining" include="nonpk" />-->
@@ -10,9 +10,7 @@
 <!--            <parameter name="trainingId" />-->
 <!--        </out-parameters>-->
 <!--    </service>-->
-<!--</services>-->
-
-<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+    
     <service verb="create" noun="MoquiTraining">
         <in-parameters>
             <auto-parameters entity-name="MoquiTraining" include="nonpk" />
@@ -26,17 +24,76 @@
             <service-call name="create#MoquiTraining" in-map="context" out-map="context" />
         </actions>
     </service>
-</services>
 
-<!--<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">-->
-<!--<service verb="create" noun="MoquiTraining" type="script" location="component://moqui-training/service/createMoquiTraining.groovy">-->
-<!--    <in-parameters>-->
-<!--        <auto-parameters entity-name="MoquiTraining" include="nonpk" />-->
-<!--        <parameter name="trainingName" required="true" />-->
-<!--        <parameter name="trainingDate"  />-->
-<!--    </in-parameters>-->
-<!--    <out-parameters>-->
-<!--        <parameter name="trainingId" />-->
-<!--    </out-parameters>-->
-<!--</service>-->
-<!--</services>-->
+    <!--<service verb="create" noun="MoquiTraining" type="script" location="component://moqui-training/service/createMoquiTraining.groovy">-->
+    <!--    <in-parameters>-->
+    <!--        <auto-parameters entity-name="MoquiTraining" include="nonpk" />-->
+    <!--        <parameter name="trainingName" required="true" />-->
+    <!--        <parameter name="trainingDate"  />-->
+    <!--    </in-parameters>-->
+    <!--    <out-parameters>-->
+    <!--        <parameter name="trainingId" />-->
+    <!--    </out-parameters>-->
+    <!--</service>-->
+
+    <service verb="find" noun="MoquiTraining">
+        <description>Find Moqui Training records by trainingName or trainingId.</description>
+        <in-parameters>
+            <parameter name="trainingId" />
+            <parameter name="trainingName" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingInfoList" type="List">
+                <parameter name="trainingMap" type="Map">
+                    <parameter name="trainingId" />
+                    <parameter name="trainingName" />
+                    <parameter name="trainingDate" />
+                </parameter>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="moqui.training.MoquiTraining" list="trainingInfoList" cache="false">
+                <econdition field-name="trainingId"
+                            ignore-if-empty="true" />
+                <econdition field-name="trainingName"
+                            operator="like"
+                            value="%${trainingName}%"
+                            ignore-case="true"
+                            ignore-if-empty="true"/>
+
+                <select-field field-name="trainingId"/>
+                <select-field field-name="trainingName" />
+                <select-field field-name="trainingDate" />
+            </entity-find>
+        </actions>
+    </service>
+
+    <service verb="store" noun="MoquiTraining">
+        <in-parameters>
+            <auto-parameters entity-name="moqui.training.MoquiTraining" include="nonpk"/>
+            <parameter name="trainingName" required="true" />
+            <parameter name="trainingDate" type="Timestamp" format="MM/dd" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId" />
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="moqui.training.MoquiTraining" list="moquiTrainingList">
+                <econdition field-name="trainingName" ignore-case="true" />
+            </entity-find>
+
+            <if condition="moquiTrainingList">
+                <then>
+                    <log message="moquiTrainingList" />
+                    <set field="training" from="moquiTrainingList.first" />
+                    <entity-set value-field="training" />
+                    <entity-update value-field="training"/>
+                    <set field="trainingId" from="training.trainingId"/>
+                </then>
+                <else>
+                    <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
+                </else>
+            </if>
+        </actions>
+    </service>
+</services>
