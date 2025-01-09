@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
-
     <entity entity-name="MoquiTraining" package="moqui.training">
         <field name="trainingId" type="id" is-pk="true" />
         <field name="trainingName" type="text-medium" />
         <field name="trainingDate" type="date" />
         <field name="trainingPrice" type="number-integer"/>
         <field name="trainingDuration" type="number-integer"/>
+    </entity>
+    <entity entity-name="Party" package="moqui.training">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="partyType" type="text-medium" not-null="true" />
+        <field name="firstName" type="text-medium" />
+        <field name="lastName" type="text-medium"/>
+    </entity>
+    <entity entity-name="ContactMech" package="moqui.training">
+        <field name="contactMechId" type="id" is-pk="true" />
+        <field name="partyId" type="id" />
+        <field name="streetAddress" type="text-medium" not-null="true" />
+        <field name="city" type="text-medium"/>
+        <field name="state" type="text-medium"/>
+        <field name="postalCode" type="text-medium" />
+        <relationship type="one" title="Party" related="moqui.training.Party" short-alias="partyId" />
+    </entity>
+    <entity entity-name="Product" package="moqui.training">
+        <field name="productId" type="id" is-pk="true" />
+        <field name="productName" type="text-medium" not-null="true" />
+        <field name="color" type="text-medium" />
+        <field name="size" type="text-medium" />
+    </entity>
+    <entity entity-name="OrderHeader" package="moqui.training">
+        <field name="orderId" type="id" is-pk="true" />
+        <field name="partyDate" type="date" not-null="true" />
+        <field name="partyId" type="id" />
+        <field name="shippingContactMechId" type="id" />
+        <field name="billingContactMechId" type="id" />
+        <relationship type="one" title="Party" related="moqui.training.Party" short-alias="partyId" />
+        <relationship type="one" title="ShippingContactMech" related="moqui.training.ContactMech" short-alias="shippingContactMechId">
+                <key-map field-name="shippingContactMechId" related="contactMechId" />
+        </relationship>
+        <relationship type="one" title="BillingContactMech" related="moqui.training.ContactMech" short-alias="billingContactMechId">
+            <key-map field-name="billingContactMechId" related="contactMechId" />
+        </relationship>
+    </entity>
+    <entity entity-name="OrderItem" package="moqui.training">
+        <field name="orderItemSeqId" type="id" is-pk="true" />
+        <field name="orderId" type="id" />
+        <field name="productId" type="id" />
+        <field name="quantity" type="number-integer" not-null="true" />
+        <field name="status" type="text-medium"/>
+        <relationship type="one" title="Order" related="moqui.training.OrderHeader" short-alias="orderId" />
+        <relationship type="one" title="Product" related="moqui.training.Product" short-alias="productId" />
     </entity>
 </entities>

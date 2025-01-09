@@ -96,4 +96,81 @@
             </if>
         </actions>
     </service>
+
+    <service verb="create" noun="Party">
+        <in-parameters>
+            <parameter name="partyType" />
+            <parameter name="firstName"/>
+            <parameter name="lastName" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId" />
+        </out-parameters>
+        <actions>
+            <if condition="!partyType">
+                <return error="true" message="Party Type is required." />
+            </if>
+            <if condition="!firstName">
+                <return error="true" message="First Name is required." />
+            </if>
+            <if condition="!lastName">
+                <return error="true" message="Last Name is required." />
+            </if>
+
+            <message type="success">
+                Party Created SuccessFully
+            </message>
+        </actions>
+    </service>
+
+    <service verb="find" noun="Party">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="party" />
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <message type="success">Party Fetch Successfully</message>
+        </actions>
+    </service>
+
+    <service verb="store" noun="Party">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+            <parameter name="partyType"/>
+            <parameter name="firstName"/>
+            <parameter name="lastName" />
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Id is incorrect" />
+            </if>
+            <entity-set value-field="party" />
+            <entity-update value-field="party"/>
+            <message type="success">Party Updated Successfully</message>
+        </actions>
+    </service>
+
+    <service verb="delete" noun="Party">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <message type="success">Party Deleted Successfully</message>
+        </actions>
+    </service>
+
+
 </services>
