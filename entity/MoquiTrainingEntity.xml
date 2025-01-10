@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    
+    <!-- ========================= MoquiTraing Entity ============================= -->
     <entity entity-name="MoquiTraining" package="moqui.training">
         <field name="trainingId" type="id" is-pk="true" />
         <field name="trainingName" type="text-medium" />
@@ -8,12 +10,16 @@
         <field name="trainingPrice" type="number-integer"/>
         <field name="trainingDuration" type="number-integer"/>
     </entity>
+
+    <!-- ========================= Party Entity ============================= -->
     <entity entity-name="Party" package="moqui.training">
         <field name="partyId" type="id" is-pk="true" />
         <field name="partyType" type="text-medium" not-null="true" />
         <field name="firstName" type="text-medium" />
         <field name="lastName" type="text-medium"/>
     </entity>
+
+    <!-- ========================= ContactMech Entity ============================= -->
     <entity entity-name="ContactMech" package="moqui.training">
         <field name="contactMechId" type="id" is-pk="true" />
         <field name="partyId" type="id" />
@@ -23,12 +29,16 @@
         <field name="postalCode" type="text-medium" />
         <relationship type="one" title="Party" related="moqui.training.Party" short-alias="partyId" />
     </entity>
+
+    <!-- ========================= Product Entity ============================= -->
     <entity entity-name="Product" package="moqui.training">
         <field name="productId" type="id" is-pk="true" />
         <field name="productName" type="text-medium" not-null="true" />
         <field name="color" type="text-medium" />
         <field name="size" type="text-medium" />
     </entity>
+
+    <!-- ========================= OrderHeader Entity ============================= -->
     <entity entity-name="OrderHeader" package="moqui.training">
         <field name="orderId" type="id" is-pk="true" />
         <field name="partyDate" type="date" not-null="true" />
@@ -43,6 +53,8 @@
             <key-map field-name="billingContactMechId" related="contactMechId" />
         </relationship>
     </entity>
+
+    <!-- ========================= OrderItem Entity ============================= -->
     <entity entity-name="OrderItem" package="moqui.training">
         <field name="orderItemSeqId" type="id" is-pk="true" />
         <field name="orderId" type="id" />

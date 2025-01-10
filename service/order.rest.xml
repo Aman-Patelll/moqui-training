@@ -1,0 +1,23 @@
+<!-- ========================= Rest API for Order ============================= -->
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
+          name="orders" displayName="Rest API" require-authentication="anonymous-all">
+    <method type="post">
+        <service name="OrderService.create#OrderHeader"/>
+    </method>
+    <id name="orderId">
+        <method type="get">
+            <service name="OrderService.find#OrderHeader"/>
+        </method>
+        <method type="put">
+            <service name="OrderService.store#OrderHeader"/>
+        </method>
+        <method type="delete">
+            <service name="OrderService.delete#OrderHeader"/>
+        </method>
+        <resource name="items" >
+            <method type="post">
+                <service name="OrderService.create#OrderItem"/>
+            </method>
+        </resource>
+    </id>
+</resource>

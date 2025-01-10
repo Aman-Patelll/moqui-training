@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+<!-- ========================= Create Product Service  ============================= -->
+    <service verb="create" noun="Product">
+        <in-parameters>
+            <parameter name="productName" />
+            <parameter name="color"/>
+            <parameter name="size" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="productId" />
+        </out-parameters>
+        <actions>
+            <if condition="!productName">
+                <return error="true" message="Product Name is required." />
+            </if>
+            <if condition="!color">
+                <return error="true" message="Product Color is required." />
+            </if>
+            <if condition="!size">
+                <return error="true" message="Product Size is required." />
+            </if>
+
+            <service-call name="create#Product" in-map="context" out-map="context" />
+            <message type="success">
+                Product Created SuccessFully
+            </message>
+        </actions>
+    </service>
+
+<!-- ========================= Find Product Service  ============================= -->
+    <service verb="find" noun="Product">
+        <in-parameters>
+            <parameter name="productId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="product" />
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="Product" value-field="product" />
+            <if condition="!product">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <message type="success">Product Fetch Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Store Product Service  ============================= -->
+    <service verb="store" noun="Product" >
+        <in-parameters>
+            <parameter name="productId" required="true"/>
+            <parameter name="productName"/>
+            <parameter name="color"/>
+            <parameter name="size" />
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="Product" value-field="product" />
+            <if condition="!product">
+                <return error="true" message="Id is incorrect" />
+            </if>
+            <entity-set value-field="product" />
+            <entity-update value-field="product"/>
+            <message type="success">Product Updated Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Delete Product Service  ============================= -->
+    <service verb="delete" noun="Product">
+        <in-parameters>
+            <parameter name="productId" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="Product" value-field="product" />
+            <if condition="!product">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <entity-delete value-field="product"/>
+            <message type="success">Product Deleted Successfully</message>
+        </actions>
+    </service>
+</services> 

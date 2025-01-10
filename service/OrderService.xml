@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+<!-- ========================= Create OrderHeader Service  ============================= -->
+ <service verb="create" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="partyDate" />
+            <parameter name="partyId"/>
+            <parameter name="shippingContactMechId" />
+            <parameter name="billingContactMechId" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderId" />
+        </out-parameters>
+        <actions>
+            <if condition="!partyDate">
+                <return error="true" message="Party Date is required." />
+            </if>
+            <if condition="!partyId">
+                <return error="true" message="Party Id is required." />
+            </if>
+            <if condition="!shippingContactMechId">
+                <return error="true" message="Shipping Contact Mech Id is required." />
+            </if>
+            <if condition="!billingContactMechId">
+                <return error="true" message="Billing Contact Mech Id is required." />
+            </if>
+
+            <service-call name="create#OrderHeader" in-map="context" out-map="context" />
+            <message type="success">
+                Order Created SuccessFully
+            </message>
+        </actions>
+    </service>
+
+<!-- ========================= Find OrderHeader Service  ============================= -->
+    <service verb="find" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="order" />
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="order" />
+            <if condition="!order">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <message type="success">Order Fetch Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Store OrderHeader Service  ============================= -->
+    <service verb="store" noun="OrderHeader" >
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+            <parameter name="partyDate" />
+            <parameter name="partyId"/>
+            <parameter name="shippingContactMechId" />
+            <parameter name="billingContactMechId" />
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="order" />
+            <if condition="!order">
+                <return error="true" message="Id is incorrect" />
+            </if>
+            <entity-set value-field="order" />
+            <entity-update value-field="order"/>
+            <message type="success">Order Updated Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Delete OrderHeader Service  ============================= -->
+    <service verb="delete" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="order" />
+            <if condition="!order">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <entity-delete value-field="order"/>
+            <message type="success" >Order Deleted Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Create OrderItem Service  ============================= -->
+    <service verb="create" noun="OrderItem">
+        <in-parameters>
+            <parameter name="orderId" />
+            <parameter name="productId"/>
+            <parameter name="quantity" />
+            <parameter name="status" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderItemSeqId" />
+        </out-parameters>
+        <actions>
+            <if condition="!orderId">
+                <return error="true" message="Order Id is required." />
+            </if>
+            <if condition="!productId">
+                <return error="true" message="Product Id is required." />
+            </if>
+            <if condition="!quantity">
+                <return error="true" message="quantity is required." />
+            </if>
+            <if condition="!status">
+                <return error="true" message="status is required." />
+            </if>
+
+            <service-call name="create#OrderItem" in-map="context" out-map="context" />
+            <message type="success">
+                Item Added SuccessFully
+            </message>
+        </actions>
+    </service>
+</services>

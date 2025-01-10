@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+<!-- ========================= Create Party Service  ============================= -->
+    <service verb="create" noun="Party">
+        <in-parameters>
+            <parameter name="partyType" />
+            <parameter name="firstName"/>
+            <parameter name="lastName" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId" />
+        </out-parameters>
+        <actions>
+            <if condition="!partyType">
+                <return error="true" message="Party Type is required." />
+            </if>
+            <if condition="!firstName">
+                <return error="true" message="First Name is required." />
+            </if>
+            <if condition="!lastName">
+                <return error="true" message="Last Name is required." />
+            </if>
+
+            <service-call name="create#Party" in-map="context" out-map="context" />
+            <message type="success">
+                Party Created SuccessFully
+            </message>
+        </actions>
+    </service>
+
+<!-- ========================= Find Party Service  ============================= -->
+    <service verb="find" noun="Party">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="party" />
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <message type="success">Party Fetch Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Store Party Service  ============================= -->
+    <service verb="store" noun="Party" >
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+            <parameter name="partyType"/>
+            <parameter name="firstName"/>
+            <parameter name="lastName" />
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Id is incorrect" />
+            </if>
+            <entity-set value-field="party" />
+            <entity-update value-field="party"/>
+            <message type="success">Party Updated Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Delete Party Service  ============================= -->
+    <service verb="delete" noun="Party">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Id is incorrect" />
+            </if>
+            
+            <entity-delete value-field="party"/>
+            <message type="success">Party Deleted Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Create ContactMech Service  ============================= -->
+    <service verb="create" noun="ContactMech">
+        <in-parameters>
+            <parameter name="partyId" />
+            <parameter name="streetAddress" />
+            <parameter name="city"/>
+            <parameter name="state" />
+            <parameter name="postalCode" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMechId" />
+        </out-parameters>
+        <actions>
+            <if condition="!streetAddress">
+                <return error="true" message="Street Address is required." />
+            </if>
+            <if condition="!city">
+                <return error="true" message="City is required." />
+            </if>
+            <if condition="!state">
+                <return error="true" message="State is required." />
+            </if>
+            <if condition="!postalCode">
+                <return error="true" message="State is required." />
+            </if>
+            <if condition="!partyId">
+                <return error="true" message="State is required." />
+            </if>
+
+            <service-call name="create#ContactMech" in-map="context" out-map="context" />
+            <message type="success">
+                Contact Mech Added SuccessFully
+            </message>
+        </actions>
+    </service>
+
+<!-- ========================= Find ContactMech Service  ============================= -->
+    <service verb="find" noun="ContactMech">
+        <in-parameters>
+            <parameter name="contactMechId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMech" />
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="ContactMech" value-field="contactMech" />
+            <if condition="!contactMech">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <message type="success">Contact Fetch Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Store ContactMech Service  ============================= -->
+    <service verb="store" noun="ContactMech" >
+        <in-parameters>
+            <parameter name="contactMechId"/>
+            <parameter name="partyId" />
+            <parameter name="streetAddress" />
+            <parameter name="city"/>
+            <parameter name="state" />
+            <parameter name="postalCode" />
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="ContactMech" value-field="contactMech" />
+            <if condition="!contactMech">
+                <return error="true" message="Id is incorrect" />
+            </if>
+            <entity-set value-field="contactMech" />
+            <entity-update value-field="contactMech"/>
+            <message type="success">Contact Mech Updated Successfully</message>
+        </actions>
+    </service>
+
+<!-- ========================= Delete ContactMech Service  ============================= -->
+    <service verb="delete" noun="ContactMech">
+        <in-parameters>
+            <parameter name="contactMechId" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="ContactMech" value-field="contactMech" />
+            <if condition="!contactMech">
+                <return error="true" message="Id is incorrect" />
+            </if>
+
+            <entity-delete value-field="contactMech"/>
+            <message type="success">Contact Mech Deleted Successfully</message>
+        </actions>
+    </service>
+</services> 

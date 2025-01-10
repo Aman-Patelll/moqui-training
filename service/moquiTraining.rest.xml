@@ -1,17 +1,34 @@
+<!-- ========================= Rest API for Party ============================= -->
 <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
- name="party" displayName="Rest API" require-authentication="anonymous-all">
+ name="parties" displayName="Rest API" require-authentication="anonymous-all">
     <method type="post">
-        <service name="MoquiTrainingService.create#Party"/>
+        <service name="PartyServices.create#Party"/>
     </method>
     <id name="partyId">
         <method type="get">
-                <service name="MoquiTrainingService.find#Party"/>
+                <service name="PartyServices.find#Party"/>
         </method>
         <method type="put">
-            <service name="MoquiTrainingService.store#Party"/>
+            <service name="PartyServices.store#Party"/>
         </method>
         <method type="delete">
-            <service name="MoquiTrainingService.delete#Party"/>
+            <service name="PartyServices.delete#Party"/>
         </method>
+        <resource name="contacts">
+            <method type="post">
+                <service name="PartyServices.create#ContactMech"/>
+            </method>
+            <id name="contactMechId">
+                <method type="get">
+                    <service name="PartyServices.find#ContactMech"/>
+                </method>
+                <method type="put">
+                    <service name="PartyServices.store#ContactMech"/>
+                </method>
+                <method type="delete">
+                    <service name="PartyServices.delete#ContactMech"/>
+                </method>
+            </id>
+        </resource>
     </id>
 </resource>
