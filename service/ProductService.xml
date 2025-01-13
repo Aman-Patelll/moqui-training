@@ -21,7 +21,7 @@
                 <return error="true" message="Product Size is required." />
             </if>
 
-            <service-call name="create#Product" in-map="context" out-map="context" />
+            <service-call name="create#moqui.training.Product" in-map="context" out-map="context" />
             <message type="success">
                 Product Created SuccessFully
             </message>

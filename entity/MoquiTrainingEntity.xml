@@ -15,8 +15,14 @@
     <entity entity-name="Party" package="moqui.training">
         <field name="partyId" type="id" is-pk="true" />
         <field name="partyType" type="text-medium" not-null="true" />
-        <field name="firstName" type="text-medium" />
-        <field name="lastName" type="text-medium"/>
+        <field name="firstName" type="text-short" />
+        <field name="lastName" type="text-short"/>
+        <relationship type="one" related="moqui.training.ContactMech">
+            <key-map field-name="partyId" />
+        </relationship>
+        <relationship type="one" related="moqui.training.OrderHeader">
+            <key-map field-name="partyId" />
+        </relationship>
     </entity>
 
     <!-- ========================= ContactMech Entity ============================= -->
@@ -24,18 +30,26 @@
         <field name="contactMechId" type="id" is-pk="true" />
         <field name="partyId" type="id" />
         <field name="streetAddress" type="text-medium" not-null="true" />
-        <field name="city" type="text-medium"/>
-        <field name="state" type="text-medium"/>
-        <field name="postalCode" type="text-medium" />
-        <relationship type="one" title="Party" related="moqui.training.Party" short-alias="partyId" />
+        <field name="city" type="text-short"/>
+        <field name="state" type="text-short"/>
+        <field name="postalCode" type="text-short" />
+        <relationship  type="many" related="moqui.training.Party" >
+            <key-map field-name="partyId" />
+        </relationship>
+        <relationship type="one" related="moqui.training.OrderHeader" >
+            <key-map field-name="contactMechId" />
+        </relationship>
     </entity>
 
     <!-- ========================= Product Entity ============================= -->
     <entity entity-name="Product" package="moqui.training">
         <field name="productId" type="id" is-pk="true" />
         <field name="productName" type="text-medium" not-null="true" />
-        <field name="color" type="text-medium" />
-        <field name="size" type="text-medium" />
+        <field name="color" type="text-short" />
+        <field name="size" type="text-short" />
+        <relationship type="one" related="moqui.training.OrderItem">
+            <key-map field-name="productId" />
+        </relationship>
     </entity>
 
     <!-- ========================= OrderHeader Entity ============================= -->
@@ -45,12 +59,17 @@
         <field name="partyId" type="id" />
         <field name="shippingContactMechId" type="id" />
         <field name="billingContactMechId" type="id" />
-        <relationship type="one" title="Party" related="moqui.training.Party" short-alias="partyId" />
-        <relationship type="one" title="ShippingContactMech" related="moqui.training.ContactMech" short-alias="shippingContactMechId">
+        <relationship type="many" related="moqui.training.Party" >
+            <key-map field-name="partyId" />
+        </relationship>
+        <relationship type="one" related="moqui.training.ContactMech" >
                 <key-map field-name="shippingContactMechId" related="contactMechId" />
         </relationship>
-        <relationship type="one" title="BillingContactMech" related="moqui.training.ContactMech" short-alias="billingContactMechId">
+        <relationship type="one" related="moqui.training.ContactMech" >
             <key-map field-name="billingContactMechId" related="contactMechId" />
+        </relationship>
+        <relationship type="one" related="moqui.training.OrderItem" >
+            <key-map field-name="orderId" />
         </relationship>
     </entity>
 
@@ -61,7 +80,11 @@
         <field name="productId" type="id" />
         <field name="quantity" type="number-integer" not-null="true" />
         <field name="status" type="text-medium"/>
-        <relationship type="one" title="Order" related="moqui.training.OrderHeader" short-alias="orderId" />
-        <relationship type="one" title="Product" related="moqui.training.Product" short-alias="productId" />
+        <relationship type="many" related="moqui.training.OrderHeader" >
+            <key-map field-name="orderId" />
+        </relationship>
+        <relationship type="many" related="moqui.training.Product" >
+            <key-map field-name="productId" />
+        </relationship>
     </entity>
 </entities>

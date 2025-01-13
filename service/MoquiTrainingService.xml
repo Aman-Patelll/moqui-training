@@ -23,7 +23,7 @@
             <parameter name="trainingId" />
         </out-parameters>
         <actions>
-            <service-call name="create#MoquiTraining" in-map="context" out-map="context" />
+            <service-call name="create#moqui.training.MoquiTraining" in-map="context" out-map="context" />
         </actions>
     </service>
 

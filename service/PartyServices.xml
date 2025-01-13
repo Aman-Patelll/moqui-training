@@ -20,8 +20,7 @@
             <if condition="!lastName">
                 <return error="true" message="Last Name is required." />
             </if>
-
-            <service-call name="create#Party" in-map="context" out-map="context" />
+            <service-call name="create#moqui.training.Party" in-map="context" out-map="context" />
             <message type="success">
                 Party Created SuccessFully
             </message>
@@ -110,7 +109,7 @@
                 <return error="true" message="State is required." />
             </if>
 
-            <service-call name="create#ContactMech" in-map="context" out-map="context" />
+            <service-call name="create#moqui.training.ContactMech" in-map="context" out-map="context" />
             <message type="success">
                 Contact Mech Added SuccessFully
             </message>

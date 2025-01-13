@@ -25,7 +25,7 @@
                 <return error="true" message="Billing Contact Mech Id is required." />
             </if>
 
-            <service-call name="create#OrderHeader" in-map="context" out-map="context" />
+            <service-call name="create#moqui.training.OrderHeader" in-map="context" out-map="context" />
             <message type="success">
                 Order Created SuccessFully
             </message>
@@ -111,7 +111,7 @@
                 <return error="true" message="status is required." />
             </if>
 
-            <service-call name="create#OrderItem" in-map="context" out-map="context" />
+            <service-call name="create#moqui.training.OrderItem" in-map="context" out-map="context" />
             <message type="success">
                 Item Added SuccessFully
             </message>
