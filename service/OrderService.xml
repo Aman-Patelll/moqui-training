@@ -25,6 +25,11 @@
                 <return error="true" message="Billing Contact Mech Id is required." />
             </if>
 
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Party Id is incorrect" />
+            </if>
+
             <service-call name="create#moqui.training.OrderHeader" in-map="context" out-map="context" />
             <message type="success">
                 Order Created SuccessFully
@@ -109,6 +114,16 @@
             </if>
             <if condition="!status">
                 <return error="true" message="status is required." />
+            </if>
+
+            <entity-find-one entity-name="OrderHeader" value-field="order" />
+            <if condition="!order">
+                <return error="true" message="Order Id is incorrect" />
+            </if>
+
+            <entity-find-one entity-name="Product" value-field="product" />
+            <if condition="!product">
+                <return error="true" message="Product Id is incorrect" />
             </if>
 
             <service-call name="create#moqui.training.OrderItem" in-map="context" out-map="context" />

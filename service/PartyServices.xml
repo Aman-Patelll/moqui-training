@@ -74,7 +74,7 @@
             <if condition="!party">
                 <return error="true" message="Id is incorrect" />
             </if>
-            
+
             <entity-delete value-field="party"/>
             <message type="success">Party Deleted Successfully</message>
         </actions>
@@ -103,10 +103,15 @@
                 <return error="true" message="State is required." />
             </if>
             <if condition="!postalCode">
-                <return error="true" message="State is required." />
+                <return error="true" message="postalCode is required." />
             </if>
             <if condition="!partyId">
-                <return error="true" message="State is required." />
+                <return error="true" message="partyId is required." />
+            </if>
+
+            <entity-find-one entity-name="Party" value-field="party" />
+            <if condition="!party">
+                <return error="true" message="Party Id is incorrect" />
             </if>
 
             <service-call name="create#moqui.training.ContactMech" in-map="context" out-map="context" />

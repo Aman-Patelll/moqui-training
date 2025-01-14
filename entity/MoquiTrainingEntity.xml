@@ -83,7 +83,7 @@
         <relationship type="many" related="moqui.training.OrderHeader" >
             <key-map field-name="orderId" />
         </relationship>
-        <relationship type="many" related="moqui.training.Product" >
+        <relationship type="one" related="moqui.training.Product" >
             <key-map field-name="productId" />
         </relationship>
     </entity>
