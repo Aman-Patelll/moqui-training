@@ -31,9 +31,8 @@
             </if>
 
             <service-call name="create#moqui.training.OrderHeader" in-map="context" out-map="context" />
-            <message type="success">
-                Order Created SuccessFully
-            </message>
+
+            <return type="success" message="Order Created SuccessFully" />
         </actions>
     </service>
 
@@ -51,7 +50,7 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
-            <message type="success">Order Fetch Successfully</message>
+            <return type="success" message="Order Fetch Successfully" />
         </actions>
     </service>
 
@@ -71,7 +70,8 @@
             </if>
             <entity-set value-field="order" />
             <entity-update value-field="order"/>
-            <message type="success">Order Updated Successfully</message>
+
+            <return type="success" message="Order Updated Successfully" />
         </actions>
     </service>
 
@@ -86,8 +86,13 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
+            <entity-delete-by-condition entity-name="moqui.training.OrderItem">
+                <econdition field-name="orderId" />
+            </entity-delete-by-condition>
+
             <entity-delete value-field="order"/>
-            <message type="success" >Order Deleted Successfully</message>
+
+            <return type="success" message="Order Deleted Successfully" />
         </actions>
     </service>
 
@@ -127,9 +132,8 @@
             </if>
 
             <service-call name="create#moqui.training.OrderItem" in-map="context" out-map="context" />
-            <message type="success">
-                Item Added SuccessFully
-            </message>
+
+            <return type="success" message="Item Added SuccessFully" />
         </actions>
     </service>
 </services>

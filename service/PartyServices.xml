@@ -20,10 +20,10 @@
             <if condition="!lastName">
                 <return error="true" message="Last Name is required." />
             </if>
+
             <service-call name="create#moqui.training.Party" in-map="context" out-map="context" />
-            <message type="success">
-                Party Created SuccessFully
-            </message>
+
+            <return type="success" message="Party Created SuccessFully" />
         </actions>
     </service>
 
@@ -41,7 +41,7 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
-            <message type="success">Party Fetch Successfully</message>
+            <return type="success" message="Party Fetch Successfully" />
         </actions>
     </service>
 
@@ -60,7 +60,8 @@
             </if>
             <entity-set value-field="party" />
             <entity-update value-field="party"/>
-            <message type="success">Party Updated Successfully</message>
+
+            <return type="success" message="Party Updated Successfully" />
         </actions>
     </service>
 
@@ -75,8 +76,27 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
+            <entity-find entity-name="ContactMech" list="contacts">
+                <econdition field-name="partyId" />
+            </entity-find>
+
+            <iterate list="contacts" entry="contact">
+                <set field="contactMechId" value="${contact.contactMechId}" />
+                <service-call name="PartyServices.delete#ContactMech" in-map="context" out-map="context" />
+            </iterate>
+
+            <entity-find entity-name="OrderHeader" list="orderList">
+                <econdition field-name="partyId" />
+            </entity-find>
+
+            <iterate list="orderList" entry="order" >
+                <set field="orderId" value="${order.orderId}" />
+                <service-call name="OrderService.delete#OrderHeader" in-map="context" out-map="context" />
+            </iterate>
+
             <entity-delete value-field="party"/>
-            <message type="success">Party Deleted Successfully</message>
+
+            <return type="success" message="Party Deleted Successfully" />
         </actions>
     </service>
 
@@ -115,16 +135,16 @@
             </if>
 
             <service-call name="create#moqui.training.ContactMech" in-map="context" out-map="context" />
-            <message type="success">
-                Contact Mech Added SuccessFully
-            </message>
+
+            <return type="success" message="Contact Mech Added SuccessFully" />
         </actions>
     </service>
 
 <!-- ========================= Find ContactMech Service  ============================= -->
     <service verb="find" noun="ContactMech">
         <in-parameters>
-            <parameter name="contactMechId" required="true"/>
+            <parameter name="contactMechId" />
+            <parameter name="partyId" />
         </in-parameters>
         <out-parameters>
             <parameter name="contactMech" />
@@ -135,7 +155,7 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
-            <message type="success">Contact Fetch Successfully</message>
+            <return type="success" message="Contact Fetch Successfully" />
         </actions>
     </service>
 
@@ -156,14 +176,16 @@
             </if>
             <entity-set value-field="contactMech" />
             <entity-update value-field="contactMech"/>
-            <message type="success">Contact Mech Updated Successfully</message>
+
+            <return type="success" message="Contact Mech Updated Successfully" />
         </actions>
     </service>
 
 <!-- ========================= Delete ContactMech Service  ============================= -->
     <service verb="delete" noun="ContactMech">
         <in-parameters>
-            <parameter name="contactMechId" required="true"/>
+            <parameter name="contactMechId" />
+            <parameter name="partyId" />
         </in-parameters>
         <actions>
             <entity-find-one entity-name="ContactMech" value-field="contactMech" />
@@ -171,8 +193,21 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
+            <entity-find entity-name="OrderHeader" list="orderList">
+                <econditions combine="or">
+                    <econdition field-name="shippingContactMechId" value="${contactMech.contactMechId}" />
+                    <econdition field-name="billingContactMechId" value="${contactMech.contactMechId}" />
+                </econditions>
+            </entity-find>
+
+            <iterate list="orderList" entry="order" >
+                <set field="orderId" value="${order.orderId}" />
+                <service-call name="OrderService.delete#OrderHeader" in-map="context" out-map="context" />
+            </iterate>
+
             <entity-delete value-field="contactMech"/>
-            <message type="success">Contact Mech Deleted Successfully</message>
+
+            <return type="success" message="Contact Mech Deleted Successfully" />
         </actions>
     </service>
 </services> 

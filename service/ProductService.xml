@@ -22,9 +22,8 @@
             </if>
 
             <service-call name="create#moqui.training.Product" in-map="context" out-map="context" />
-            <message type="success">
-                Product Created SuccessFully
-            </message>
+
+            <return type="success" message="Product Created SuccessFully" />
         </actions>
     </service>
 
@@ -42,7 +41,7 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
-            <message type="success">Product Fetch Successfully</message>
+            <return type="success" message="Product Fetch Successfully" />
         </actions>
     </service>
 
@@ -61,7 +60,8 @@
             </if>
             <entity-set value-field="product" />
             <entity-update value-field="product"/>
-            <message type="success">Product Updated Successfully</message>
+
+            <return type="success" message="Product Updated Successfully" />
         </actions>
     </service>
 
@@ -76,8 +76,13 @@
                 <return error="true" message="Id is incorrect" />
             </if>
 
+            <entity-delete-by-condition entity-name="moqui.training.OrderItem">
+                <econdition field-name="productId" />
+            </entity-delete-by-condition>
+
             <entity-delete value-field="product"/>
-            <message type="success">Product Deleted Successfully</message>
+
+            <return type="success" message="Product Deleted Successfully" />
         </actions>
     </service>
 </services> 

@@ -1,6 +1,6 @@
 <!-- ========================= Rest API for Order ============================= -->
 <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
-          name="orders" displayName="Rest API" require-authentication="anonymous-all">
+          name="orders" displayName="Order REST API" require-authentication="anonymous-all">
     <method type="post">
         <service name="OrderService.create#OrderHeader"/>
     </method>
